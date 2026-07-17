@@ -25,6 +25,20 @@ export default function Reports() {
     }, 2500);
   };
 
+  const handleDownload = (reportName: string) => {
+    const dummyContent = `AeroCheck-LS Technical Report\n============================\nReport Name: ${reportName}\nGenerated Date: ${new Date().toLocaleString()}\nStatus: Certified\n\nThis is a simulated defense-standard reliability report. In a production environment, this would contain detailed logic analysis, MISRA compliance tables, and safety certification signatures.`;
+    
+    const blob = new Blob([dummyContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${reportName.replace(/\s+/g, '_')}_Report.txt`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -73,7 +87,10 @@ export default function Reports() {
                     <CheckCircle className="h-3 w-3" />
                     {report.status}
                   </span>
-                  <button className="p-2 bg-brand-bg hover:bg-slate-800 border border-brand-border rounded-lg text-slate-400 hover:text-white transition-all shadow-sm">
+                  <button 
+                    onClick={() => handleDownload(report.name)}
+                    className="p-2 bg-brand-bg hover:bg-slate-800 border border-brand-border rounded-lg text-slate-400 hover:text-white transition-all shadow-sm"
+                  >
                     <Download className="h-4 w-4" />
                   </button>
                 </div>

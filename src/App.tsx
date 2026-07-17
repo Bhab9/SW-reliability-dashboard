@@ -28,6 +28,10 @@ export default function App() {
     setDefects(prev => [...newDefects, ...prev]);
   };
 
+  const handleApplyFixes = () => {
+    setDefects(prev => prev.map(d => ({ ...d, status: "Resolved" as any })));
+  };
+
   return (
     <div className="min-h-screen bg-brand-bg text-slate-200 font-sans flex flex-col overflow-hidden">
       {/* Top Navbar */}
@@ -110,24 +114,26 @@ export default function App() {
             <div className="space-y-3 mt-1">
               <div className="flex justify-between text-[11px]">
                 <span className="text-slate-400">Critical Defects</span>
-                <span className="text-rose-400 font-mono">14</span>
+                <span className="text-rose-400 font-mono">{defects.filter(d => d.severity === "Critical").length}</span>
               </div>
               <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                <div className="w-[70%] h-full bg-rose-500"></div>
+                <div className="h-full bg-rose-500" style={{ width: `${(defects.filter(d => d.severity === "Critical").length / defects.length) * 100}%` }}></div>
               </div>
               <div className="flex justify-between text-[11px]">
-                <span className="text-slate-400">MISRA Violations</span>
-                <span className="text-amber-400 font-mono">82</span>
+                <span className="text-slate-400">Total Findings</span>
+                <span className="text-amber-400 font-mono">{defects.length}</span>
               </div>
               <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                <div className="w-[45%] h-full bg-amber-500"></div>
+                <div className="h-full bg-amber-500" style={{ width: '100%' }}></div>
               </div>
               <div className="flex justify-between text-[11px]">
-                <span className="text-slate-400">Test Coverage</span>
-                <span className="text-emerald-400 font-mono">92.4%</span>
+                <span className="text-slate-400">Resolved Rate</span>
+                <span className="text-emerald-400 font-mono">
+                  {Math.round((defects.filter(d => d.status === "Resolved" || d.status === "Closed").length / defects.length) * 100)}%
+                </span>
               </div>
               <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                <div className="w-[92%] h-full bg-emerald-500"></div>
+                <div className="h-full bg-emerald-500" style={{ width: `${(defects.filter(d => d.status === "Resolved" || d.status === "Closed").length / defects.length) * 100}%` }}></div>
               </div>
             </div>
           </section>
@@ -159,7 +165,12 @@ export default function App() {
                     <h1 className="text-2xl font-light text-white">Analysis Dashboard <span className="text-slate-500 font-mono text-sm ml-2">#SPR-901-2026</span></h1>
                     <div className="flex gap-2">
                       <button className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-medium border border-slate-700 transition-colors">Rescan Codebase</button>
-                      <button className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded text-xs font-medium shadow-lg shadow-blue-900/20 transition-all">Apply All Fixes</button>
+                      <button 
+                        onClick={handleApplyFixes}
+                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded text-xs font-medium shadow-lg shadow-blue-900/20 transition-all"
+                      >
+                        Apply All Fixes
+                      </button>
                     </div>
                   </header>
                   <Dashboard defects={defects} />
