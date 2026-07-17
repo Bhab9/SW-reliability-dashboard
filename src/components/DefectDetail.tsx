@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Defect, AnalysisResponse } from "../types";
+import { Defect, AnalysisResponse, Severity } from "../types";
+import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Sparkles, Code2, AlertTriangle, Lightbulb, ChevronRight, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";

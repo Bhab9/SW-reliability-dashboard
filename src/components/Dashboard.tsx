@@ -76,10 +76,11 @@ export default function Dashboard({ defects }: DashboardProps) {
                 <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
                 <Tooltip
+                  cursor={false}
                   contentStyle={{ backgroundColor: "#0a0c10", border: "1px solid #1e293b", borderRadius: "8px", fontSize: "12px" }}
                   itemStyle={{ color: "#f8fafc" }}
                 />
-                <Bar dataKey="count" fill="#3b82f6" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="count" fill="#3b82f6" activeBar={{ fill: '#f97316' }} radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
