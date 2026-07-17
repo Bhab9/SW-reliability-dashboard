@@ -1,0 +1,6 @@
+{
+  "name": "AeroCheck-LS",
+  "description": "AI-powered SW reliability integrated management platform for automatic analysis of static/dynamic test results and AI-driven code repair guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

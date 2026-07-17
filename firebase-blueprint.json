@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "Project": {
+      "title": "Project",
+      "description": "A software project being tested.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "version": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "description": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["name", "createdAt"]
+    },
+    "Defect": {
+      "title": "Defect",
+      "description": "A software defect found during testing.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "type": { "type": "string", "enum": ["Run-time Error", "MISRA Violation", "Security Vulnerability", "Logic Error"] },
+        "severity": { "type": "string", "enum": ["Critical", "High", "Medium", "Low"] },
+        "module": { "type": "string", "maxLength": 100 },
+        "filePath": { "type": "string", "maxLength": 255 },
+        "lineNumber": { "type": "number" },
+        "codeSnippet": { "type": "string", "maxLength": 2000 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "aiAnalysis": { "type": "string", "maxLength": 5000 },
+        "aiSuggestion": { "type": "string", "maxLength": 5000 },
+        "status": { "type": "string", "enum": ["Open", "In Review", "Resolved", "Closed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectId", "type", "severity", "filePath", "status", "createdAt"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "A generated reliability report.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 100 },
+        "type": { "type": "string", "enum": ["Summary", "Detailed", "MISRA"] },
+        "downloadUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectId", "name", "type", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Collection of software projects."
+    },
+    "/projects/{projectId}/defects/{defectId}": {
+      "schema": "Defect",
+      "description": "Defects associated with a project."
+    },
+    "/projects/{projectId}/reports/{reportId}": {
+      "schema": "Report",
+      "description": "Reports generated for a project."
+    }
+  }
+}
