@@ -22,6 +22,11 @@ import { motion, AnimatePresence } from "motion/react";
 export default function App() {
   const [activeTab, setActiveTab] = useState<"dashboard" | "list" | "import" | "reports">("dashboard");
   const [selectedDefect, setSelectedDefect] = useState<Defect | null>(null);
+  const [defects, setDefects] = useState<Defect[]>(mockDefects);
+
+  const handleNewDefects = (newDefects: Defect[]) => {
+    setDefects(prev => [...newDefects, ...prev]);
+  };
 
   return (
     <div className="min-h-screen bg-brand-bg text-slate-200 font-sans flex flex-col overflow-hidden">
@@ -157,7 +162,7 @@ export default function App() {
                       <button className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded text-xs font-medium shadow-lg shadow-blue-900/20 transition-all">Apply All Fixes</button>
                     </div>
                   </header>
-                  <Dashboard defects={mockDefects} />
+                  <Dashboard defects={defects} />
                 </motion.div>
               ) : activeTab === "list" ? (
                 <motion.div
@@ -168,12 +173,12 @@ export default function App() {
                   className="space-y-6"
                 >
                   <header className="flex justify-between items-end">
-                    <h1 className="text-2xl font-light text-white">Defect Matrix <span className="text-slate-500 font-mono text-sm ml-2">Total Findings: {mockDefects.length}</span></h1>
+                    <h1 className="text-2xl font-light text-white">Defect Matrix <span className="text-slate-500 font-mono text-sm ml-2">Total Findings: {defects.length}</span></h1>
                     <div className="flex gap-2">
                       <button className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-medium border border-slate-700 transition-colors">Filter Results</button>
                     </div>
                   </header>
-                  <DefectTable defects={mockDefects} onSelectDefect={setSelectedDefect} />
+                  <DefectTable defects={defects} onSelectDefect={setSelectedDefect} />
                 </motion.div>
               ) : activeTab === "import" ? (
                 <motion.div
@@ -186,7 +191,9 @@ export default function App() {
                   <header className="flex justify-between items-end">
                     <h1 className="text-2xl font-light text-white">Data Ingestion <span className="text-slate-500 font-mono text-sm ml-2">Supported: Sparrow, Polyspace</span></h1>
                   </header>
-                  <FileUpload />
+                  <div className="p-8">
+                  <FileUpload onUpload={handleNewDefects} />
+                </div>
                 </motion.div>
               ) : (
                 <motion.div

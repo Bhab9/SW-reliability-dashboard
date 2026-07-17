@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Upload, File, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function FileUpload() {
+interface FileUploadProps {
+  onUpload: (newDefects: any[]) => void;
+}
+
+export default function FileUpload({ onUpload }: FileUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -17,12 +21,30 @@ export default function FileUpload() {
   const processFile = (file: File) => {
     setFile(file);
     setUploading(true);
-    // Simulate parsing
+    
+    // Simulate parsing and generating new mock defects
     setTimeout(() => {
+      const newDefects = [
+        {
+          id: `DEF-NEW-${Math.floor(Math.random() * 1000)}`,
+          projectId: "PRJ-001",
+          type: "Logic Error",
+          severity: "High",
+          module: "System",
+          filePath: "src/main/core.c",
+          lineNumber: 22,
+          codeSnippet: "if (x = 10) { do_something(); }",
+          description: "Assignment used in conditional expression (Potential bug).",
+          status: "Open",
+          createdAt: new Date().toISOString(),
+        }
+      ];
+      
+      onUpload(newDefects);
       setUploading(false);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
-    }, 2000);
+    }, 1500);
   };
 
   return (
