@@ -29,7 +29,7 @@ export default function App() {
       <nav className="h-14 border-b border-brand-border bg-brand-surface flex items-center justify-between px-6 shrink-0 sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded flex items-center justify-center font-bold text-white">A</div>
-          <span className="text-lg font-semibold tracking-tight text-white">AeroCheck-LS</span>
+          <span className="text-lg font-semibold tracking-tight text-white">SW Reliability Dashboard</span>
           <span className="px-2 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded text-[10px] font-mono ml-2 uppercase">v1.2.0-MVP</span>
         </div>
         <div className="flex items-center gap-6 text-sm text-slate-400">
